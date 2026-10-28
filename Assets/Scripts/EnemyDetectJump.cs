@@ -5,23 +5,16 @@ public class EnemyDetectFront : MonoBehaviour
 
     //Checks if there is a object infront of it and signals parent on what object it is 
 
-    private EnemyMovementController parent;
+    private EnemyController parent;
 
     void Start()
     {
 
-        parent = GetComponentInParent<EnemyMovementController>();
+        parent = GetComponentInParent<EnemyController>();
 
     }
 
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-
-    //    parent.DetectJump(collision);
-
-    //}
-
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         parent.DetectJump(true, collision);
     }

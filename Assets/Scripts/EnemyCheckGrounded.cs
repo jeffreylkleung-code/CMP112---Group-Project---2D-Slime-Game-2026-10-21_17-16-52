@@ -6,16 +6,12 @@ public class EnemyDetectGround : MonoBehaviour
     //Checks if it is touching the ground and tells if it is grounded
 
 
-    private EnemyMovementController parent;
-
+    private EnemyController parent;
     bool isGrounded;
-
-    
-
 
     void Start()
     {
-        parent = GetComponentInParent<EnemyMovementController>();
+        parent = GetComponentInParent<EnemyController>();
 
         isGrounded = false;
     }
