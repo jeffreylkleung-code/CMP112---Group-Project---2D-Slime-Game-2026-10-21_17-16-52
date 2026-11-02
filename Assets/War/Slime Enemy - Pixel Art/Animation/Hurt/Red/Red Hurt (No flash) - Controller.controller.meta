@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 9d02d92b63a18ba4a96fe3d2a0e581cf
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 228568
+  packageName: Slime Enemy - Pixel Art
+  packageVersion: 1.0
+  assetPath: Assets/War/Slime Enemy - Pixel Art/Animation/Hurt/Red/Red Hurt (No flash)
+    - Controller.controller
+  uploadId: 531930
