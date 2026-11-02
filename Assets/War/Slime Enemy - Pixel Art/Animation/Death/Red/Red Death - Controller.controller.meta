@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1f037e01e69e7c24ea3449961983b363
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 228568
+  packageName: Slime Enemy - Pixel Art
+  packageVersion: 1.0
+  assetPath: Assets/War/Slime Enemy - Pixel Art/Animation/Death/Red/Red Death - Controller.controller
+  uploadId: 531930
