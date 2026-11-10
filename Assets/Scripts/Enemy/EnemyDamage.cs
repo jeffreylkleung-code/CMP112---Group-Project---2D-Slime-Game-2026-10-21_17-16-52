@@ -4,7 +4,6 @@ public class EnemyDamage : MonoBehaviour
 {
 
     private EnemyController parent;
-    public Rigidbody2D rb;
 
 
     //Dealing damage

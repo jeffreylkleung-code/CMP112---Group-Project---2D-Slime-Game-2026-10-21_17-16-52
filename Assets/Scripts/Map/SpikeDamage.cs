@@ -16,7 +16,6 @@ public class SpikeDamage : MonoBehaviour
         {
             groupOfSpikes = GetComponentInParent<GroupOfSpikes>();
             contactDamage = groupOfSpikes.contactDamage;
-            Debug.Log(contactDamage);
 
         }
     }

@@ -1176,7 +1176,7 @@ Transform:
   m_GameObject: {fileID: 1939384205}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.35, y: -3.51, z: 0}
+  m_LocalPosition: {x: -18.68, y: -3.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1306,6 +1306,22 @@ PrefabInstance:
     - target: {fileID: 3419556214787158143, guid: ed8e8e4ad202dbc498d310d5e26dc2f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762866409678173962, guid: ed8e8e4ad202dbc498d310d5e26dc2f4, type: 3}
+      propertyPath: wallTag
+      value: Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762866409678173962, guid: ed8e8e4ad202dbc498d310d5e26dc2f4, type: 3}
+      propertyPath: fearTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762866409678173962, guid: ed8e8e4ad202dbc498d310d5e26dc2f4, type: 3}
+      propertyPath: isAggressive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762866409678173962, guid: ed8e8e4ad202dbc498d310d5e26dc2f4, type: 3}
+      propertyPath: isPatrolling
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

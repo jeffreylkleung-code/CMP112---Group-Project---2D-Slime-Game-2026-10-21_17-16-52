@@ -1,23 +1,39 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour, IDamageable
+public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
 {
+    // Enemy States
+    enum EnemyState { STATE_NONE, STATE_IDLE, STATE_PATROLLING, STATE_AGGROTARGET, STATE_FEARTARGET } // None is unused
+    EnemyState CurrentState;
+    public bool stateComplete;
+
+    // State Behaviours
+    public bool isPatrolling; // if true, patrol between points
+    public bool isAggressive; // If true, be aggresive to target; go towards target
+    public bool fearTarget; // if true, be scared of target; go away target
+
+    // Player Absorbtion
+    public float ObjectSize;
+    public float ReturnSizeValue;
+    private bool ObjectAbsorbed = false;
 
     //Enemy Health
     public float Health;
 
     public Rigidbody2D rb;
+    public Transform ParentObject;
 
     //Patrol settings
-    public bool isPatrolling;
     public Transform[] PatrolPoints;
     private int patrolDestination; // only public for debugging, make private
 
     // Idling
     private bool isIdle; 
     public float idleTime; 
-    private float idleTime_Count; // only public for debugging, make private
+    public float idleTime_Count; // only public for debugging, make private
 
     //Movement
     public float moveSpeed_Defualt;
@@ -30,14 +46,14 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     //Detection
     private bool wallDetected;
-    public bool IsGrounded;
+    public string wallTag;
+    public bool IsGrounded; // only public for debugging, make private
     private RaycastHit2D DetectedTarget;
     public LayerMask DetectionLayer;
 
 
 
     //Player Aggro
-    public bool isAggressive;
     public string targetTag;
     private List<Collider2D> TargetsInRange;
     private bool targetFound; // only public for debugging, make private
@@ -48,6 +64,10 @@ public class EnemyController : MonoBehaviour, IDamageable
     void Start()
     {
 
+        CurrentState = EnemyState.STATE_IDLE;
+        stateComplete = true;
+
+
         isIdle = false;
         IsGrounded = false;
         wallDetected = false;
@@ -55,15 +75,13 @@ public class EnemyController : MonoBehaviour, IDamageable
 
         targetFound = false;
         
-
-
         if (isPatrolling)
         {
             faceToTarget(transform.position, PatrolPoints[patrolDestination].position);
         }
 
     }
-
+    
     void Update()
     {
 
@@ -72,44 +90,177 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             JumpCooldown_Count += (1 * Time.deltaTime);
         }
-        if (isIdle)
+
+
+        // State
+        if (stateComplete)
         {
-            if (idleTime_Count < idleTime)
+            ChangeStates();
+            Debug.Log(CurrentState); //DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
+        }
+        UpdateState();
+
+    }
+
+    /// StatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStates
+    /// Enemy States
+    /// StatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStatesStates
+
+    void ChangeStates()
+    {
+        
+        // States
+        if (targetFound)
+        {
+            if (isAggressive)
             {
-                idleTime_Count += (1 * Time.deltaTime);
+                CurrentState = EnemyState.STATE_AGGROTARGET;
+                
+            }
+            else if (fearTarget)
+            {
+                CurrentState = EnemyState.STATE_FEARTARGET;
             }
             else
             {
-                isIdle = false;
-                idleTime_Count = 0;
+                CurrentState = EnemyState.STATE_IDLE;
             }
         }
-
-        
-
-        //If aggroed on enemy, chase target
-        if (targetFound)
+        else if (isPatrolling) // if idle cooldown is ready
         {
-            //Check if targets within range
-            if (isAggressive)
-            {
-                FindTarget();
-            }
-            
-            
-            Debug.DrawRay(transform.position, (targetTransform.position - transform.position).normalized);// DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
-            
+            CurrentState = EnemyState.STATE_PATROLLING;
+            faceToTarget(transform.position, PatrolPoints[patrolDestination].position);
         }
-        // if enemy not aggrroed, patrol
         else
         {
-            if (!isIdle && isPatrolling)
-            {
-                EnemyPatrol();
-            }
+            CurrentState = EnemyState.STATE_IDLE;
+        }
+
+        stateComplete = false;
+
+    }
+
+    void UpdateState()
+    {
+
+        switch (CurrentState)
+        {
+            case EnemyState.STATE_IDLE:
+                {
+                    StateIdle();
+                    break;
+                }
+            case EnemyState.STATE_PATROLLING:
+                {
+                    StatePatrolling();
+                    break;
+                }
+            case EnemyState.STATE_AGGROTARGET:
+                {
+                    StateAggroTarget();
+                    break;
+                }
+            case EnemyState.STATE_FEARTARGET:
+                {
+                    StateFearTarget();
+                    break;
+                }
+            default:
+                {
+                    stateComplete = true;
+                    break;
+                }
+        }
+    }
+
+    
+    void StateIdle()
+    {
+        // Idle Cooldown
+
+        if (idleTime_Count >= idleTime || targetFound)
+        {
+            idleTime_Count = 0;
+            stateComplete = true;
+        }
+        else
+        {
+            idleTime_Count += (1 * Time.deltaTime);
         }
 
     }
+
+    void StatePatrolling()
+    {
+        //Variables 
+        if (targetFound)
+        {
+            ChangeStates();
+        }
+
+        //Patrol
+
+        if (wallDetected)
+        {
+            if (JumpCooldown_Count >= JumpCooldown)
+            {
+                jump();
+            }
+        }
+        else
+        {
+            transform.position = Vector2.MoveTowards(transform.position, PatrolPoints[patrolDestination].position, moveSpeed_Defualt * Time.deltaTime);
+        }
+
+        if (Vector2.Distance(transform.position, PatrolPoints[patrolDestination].position) < .2f)
+        {
+            SwitchPatrolRoute();
+
+            //Checks if patrol point is on the right
+            faceToTarget(transform.position, PatrolPoints[patrolDestination].position);
+            CurrentState = EnemyState.STATE_IDLE; // Make enemy stand for some time to cool down
+        }
+
+    }
+
+    void StateAggroTarget()
+    {
+        faceToTarget(transform.position, targetTransform.position);
+
+        GoToTarget();
+
+        if (wallDetected && JumpCooldown_Count >= JumpCooldown_Aggro)
+        {
+            jump();
+            JumpCooldown_Count = 0;
+        }
+
+        if (Vector2.Distance(transform.position, targetTransform.position) < 1f  || !targetFound || !isAggressive)
+        {
+            stateComplete = true;
+        }
+
+    }
+
+    void StateFearTarget()
+    {
+        faceToTarget(targetTransform.position, transform.position);
+
+        GoAwayTarget();
+
+        if (wallDetected && JumpCooldown_Count >= JumpCooldown_Aggro)
+        {
+            jump();
+            JumpCooldown_Count = 0;
+        }
+
+        if (!targetFound || !fearTarget)
+        {
+            CurrentState = EnemyState.STATE_IDLE;
+        }
+
+    }
+    
 
 
     /// HealthHealthHealthHealthHealthHealthHealthHealthHealthHealthHealthHealthHealthHealthHealthHealthHealthHealth
@@ -135,9 +286,9 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void Kill()
     {
         // Checks if object has parent to destroy everything about object (patrol points etc.)
-        if (transform.parent)
+        if (ParentObject)
         {
-            Destroy(transform.parent.gameObject);
+            Destroy(ParentObject);
         }
         Destroy(gameObject);
 
@@ -148,84 +299,20 @@ public class EnemyController : MonoBehaviour, IDamageable
     /// Patrolling mechanics
     /// PatrollingPatrollingPatrollingPatrollingPatrollingPatrollingPatrollingPatrollingPatrollingPatrollingPatrollingPatrolling
 
-    // Patrolling mechanic 
-    private void EnemyPatrol()
-    {
-
-        if (wallDetected)
-        {
-
-            //if jump cooldown is ready
-            if (JumpCooldown_Count >= JumpCooldown)
-            {
-                jump();
-            }
-
-        }
-        else
-        {
-            //Move towards patrol point
-            transform.position = Vector2.MoveTowards(transform.position, PatrolPoints[patrolDestination].position, moveSpeed_Defualt * Time.deltaTime);
-
-        }
-
-
-        if (Vector2.Distance(transform.position, PatrolPoints[patrolDestination].position) < .2f)
-        {
-            SwitchPatrolRoute();
-
-            //Checks if patrol point is on the right
-            faceToTarget(transform.position, PatrolPoints[patrolDestination].position);
-        }
-    }
 
     // Switches patrol destinations in case there is more than 2 point
     private void SwitchPatrolRoute()
     {
-        isIdle = true;
         if (patrolDestination + 1 > PatrolPoints.Length - 1)
         {
             patrolDestination = 0;
-            print(patrolDestination);
+            print(patrolDestination); // DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
         }
         else
         {
             patrolDestination += 1;
-            print(patrolDestination);
+            print(patrolDestination); // DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
         }
-
-    }
-    //Checks if target location is on the right, and flip the direction accordingly
-    private void faceToTarget(Vector2 OriginPosition, Vector2 TargetPosition)
-    {
-        if (isTargetPositionRight(OriginPosition, TargetPosition)){
-
-            FlipToRight(true);
-
-        }
-        else
-        {
-            FlipToRight(false);
-        }
-
-
-    }
-
-    // Checks if target location is on the right
-    private bool isTargetPositionRight(Vector2 OriginPosition, Vector2 TargetPosition)
-    {
-        // On the right
-        if (OriginPosition.x <= TargetPosition.x)
-        {
-            return true;
-        }
-        // On the left
-        else
-        {
-            return false;
-        }
-
-
     }
 
     // Flips the enemy direction (sprite and colliders etc) to right, set to false if left
@@ -246,11 +333,9 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void DetectJump(bool isObjectInFront, Collider2D detectedObject)
     {
 
-        if (isObjectInFront == true && detectedObject.gameObject.CompareTag("Map"))
+        if (isObjectInFront == true && detectedObject.gameObject.CompareTag(wallTag))
         {
-
             wallDetected = true;
-
         }
         else
         {
@@ -261,9 +346,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void CheckGrounded(bool isGrounded)
     {
-
         IsGrounded = isGrounded;
-
     }
 
 
@@ -278,29 +361,38 @@ public class EnemyController : MonoBehaviour, IDamageable
     /// TargettingTargettingTargettingTargettingTargettingTargettingTargettingTargettingTargettingTargettingTargettingTargetting
 
 
-    // Finding targets
-
-    private void FindTarget()
+    // Checks if target location is on the right, and flip the direction accordingly
+    // can swap positions to face away from target
+    private void faceToTarget(Vector2 OriginPosition, Vector2 TargetPosition)
     {
-
-        //Check if target is on left or right
-        faceToTarget(transform.position, targetTransform.position);
-
-        if (wallDetected)
+        if (isTargetPositionRight(OriginPosition, TargetPosition))
         {
-            if (JumpCooldown_Count >= JumpCooldown_Aggro)
-            {
-                jump();
-
-            }
+            FlipToRight(true);
         }
         else
         {
-            GoToTarget();
+            FlipToRight(false);
         }
-       
     }
 
+    // Checks if target location is on the right
+    // Takes in self and target position; Returns true or left depending if they are right or left
+    private bool isTargetPositionRight(Vector2 OriginPosition, Vector2 TargetPosition)
+    {
+        // On the right
+        if (OriginPosition.x <= TargetPosition.x)
+        {
+            return true;
+        }
+        // On the left
+        else
+        {
+            return false;
+        }
+    }
+
+    // Called by Detection range script
+    // Updates the current list of targets in range
     public void UpdateCurrentTargetsInRange(List<Collider2D> targets)
     {
 
@@ -330,16 +422,19 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
     
+    // Go towards the target
+    
     private void GoToTarget()
     {
-        
-        //Go to left to target
+       
         if (Vector2.Distance(transform.position, targetTransform.position) > 1f)
         {
+            //Go to left to target
             if (transform.position.x > targetTransform.position.x)
             {
-                transform.position += Vector3.left * (moveSpeed_Aggro * Time.deltaTime);
+                transform.position += Vector3.left * (moveSpeed_Aggro * Time.deltaTime); 
             }
+            // go right to target
             else
             {
                 transform.position += Vector3.right * (moveSpeed_Aggro * Time.deltaTime);
@@ -347,8 +442,38 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
-    
-    
+    private void GoAwayTarget()
+    {
+        if (Vector2.Distance(transform.position, targetTransform.position) > 1f)
+        {
+            //Go to left to target
+            if (transform.position.x > targetTransform.position.x)
+            {
+                transform.position += Vector3.right * (moveSpeed_Aggro * Time.deltaTime);
+            }
+            // go right to target
+            else
+            {
+                transform.position += Vector3.left * (moveSpeed_Aggro * Time.deltaTime);
+            }
+        }
+    }
 
+    public float Absorb(float PlayerSizeValue)
+    {
+        // If the player is larger than object, absorb, increase player size, and delete object
+        if (PlayerSizeValue >= ObjectSize && !ObjectAbsorbed)
+        {
 
+            ObjectAbsorbed = true;
+            Kill();
+            return ReturnSizeValue;
+
+        }
+        // else, return 0; which the player would need to check if it got 0
+        else
+        {
+            return 0;
+        }
+    }
 }

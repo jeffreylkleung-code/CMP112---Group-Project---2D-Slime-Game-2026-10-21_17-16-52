@@ -18,14 +18,22 @@ public class EnemyDetectGround : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        isGrounded = true;
-        parent.CheckGrounded(isGrounded);
+        if (collision.CompareTag(parent.wallTag))
+        {
+            isGrounded = true;
+            parent.CheckGrounded(isGrounded);
+        }
+
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        isGrounded = false;
-        parent.CheckGrounded(isGrounded);
+        if (collision.CompareTag(parent.wallTag))
+        {
+            isGrounded = false;
+            parent.CheckGrounded(isGrounded);
+        }
     }
 
 
