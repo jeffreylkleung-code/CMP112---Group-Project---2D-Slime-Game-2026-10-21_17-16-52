@@ -306,12 +306,12 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
         if (patrolDestination + 1 > PatrolPoints.Length - 1)
         {
             patrolDestination = 0;
-            print(patrolDestination); // DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
+            //print(patrolDestination); // DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
         }
         else
         {
             patrolDestination += 1;
-            print(patrolDestination); // DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
+            //print(patrolDestination); // DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
         }
     }
 
@@ -414,7 +414,14 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
                 {
                     targetFound = false;
                 }        
-            }
+            }   
+
+            UpdateState(); // Update the state when target found
+            
+            //Check if the target is larger than self; fear target if so
+
+
+
         }
         else
         {
@@ -470,7 +477,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
             return ReturnSizeValue;
 
         }
-        // else, return 0; which the player would need to check if it got 0
+        // else, return 0, which mean the player didnt do anything to it
         else
         {
             return 0;

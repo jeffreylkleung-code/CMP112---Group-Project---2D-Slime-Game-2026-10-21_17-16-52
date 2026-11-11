@@ -7,12 +7,13 @@ public class ObjectAbsorbable : MonoBehaviour, IAbsorbable
     private ParentObjectAbsorbable parent;
     public float ObjectSize;
     public float ReturnSizeValue;
-    private bool ObjectAbsorbed = false;
+    private bool ObjectAbsorbed = false; // unused var
 
     //void Start()
     //{
     //    // Checks if there is a parent object with the appropriate script, easier to edit all the values
-    //    if (TryGetComponent<ParentObjectAbsorbable>(out ParentObjectAbsorbable temp))
+    //    // Currently unused, slightly reductant as you can select all in folder, uncomment to use ig
+    //    if (TryGetComponent<ParentObjectAbsorbable>(out ParentObjectAbsorbable unusedVar))
     //    {
     //        parent = GetComponentInParent<ParentObjectAbsorbable>();
 
