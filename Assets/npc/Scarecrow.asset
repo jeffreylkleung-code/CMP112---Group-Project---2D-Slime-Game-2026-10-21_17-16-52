@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0c21bb0820811409ba5ae5cb8e6ea0, type: 3}
   m_Name: Scarecrow
   m_EditorClassIdentifier: Assembly-CSharp::Scarecrow
-  npcName: 
-  npcPortrait: {fileID: 0}
-  dialogueLines: []
-  autoProgressLines: 
+  npcName: Scarecrow
+  npcPortrait: {fileID: 21300256, guid: 7810966f0f690954c87305933cabf2b0, type: 3}
+  dialogueLines:
+  - Hello there little slime!
+  - If you could, lend us a hand,
+  - the creatures of the night wish to take down the kings castle.
+  - If you wish to help us, use A/D to go left and right...
+  - And use SPACE to jump!
+  - Grow larger through absorbing others,
+  - and get big enough to take down the castle!
+  autoProgressLines: 010101010101
   autoProgressDelay: 1.5
   typingSpeed: 0.05
