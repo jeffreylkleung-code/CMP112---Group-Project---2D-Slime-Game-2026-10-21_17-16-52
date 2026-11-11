@@ -1,5 +1,5 @@
 using UnityEngine;
-
+//Camera.cs is adapted from the camera in roll a ball
 public class Camera : MonoBehaviour
 {
     public GameObject Circle;
