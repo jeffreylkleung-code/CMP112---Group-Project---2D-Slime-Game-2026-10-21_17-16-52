@@ -14,7 +14,11 @@ public class EnemyDetectFront : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        parent.DetectJump(true, collision);
+        if (collision.gameObject.name != "JumpCheck")
+        {
+
+            parent.DetectJump(true, collision);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
