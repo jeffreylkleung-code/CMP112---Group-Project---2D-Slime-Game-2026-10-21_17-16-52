@@ -3,7 +3,7 @@ using UnityEngine;
 public class jumpCheckScript : MonoBehaviour
 {
     private BoxCollider2D bc;
-    public bool isJumping = true;
+
 
     private void Awake()
     {
@@ -15,7 +15,7 @@ public class jumpCheckScript : MonoBehaviour
 
         if (other.gameObject.name == ("PlayerChar"))
         {
-            isJumping = true;
+            GameObject.Find("PlayerChar").GetComponent<slimeMovement>().isJumping = true;
             Debug.Log("In object");
         }
 
@@ -24,7 +24,7 @@ public class jumpCheckScript : MonoBehaviour
     {
         if (other.gameObject.name == ("PlayerChar"))
         {
-            isJumping = false;
+            GameObject.Find("PlayerChar").GetComponent<slimeMovement>().isJumping = false;
             Debug.Log("Out Object");
         }
     }

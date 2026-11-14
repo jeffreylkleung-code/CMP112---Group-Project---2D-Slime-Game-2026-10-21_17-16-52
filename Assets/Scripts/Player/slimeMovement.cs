@@ -1,9 +1,11 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class slimeMovement : MonoBehaviour
 {
     public bool isJumping;
+    public bool gameOver;
     public Rigidbody2D rb;
     public float moveSpeed;
     public float jumping;
@@ -15,6 +17,7 @@ public class slimeMovement : MonoBehaviour
     {
         floor = GameObject.Find("floor");
         rb = GetComponent<Rigidbody2D>();
+        isJumping = false;
     }
 
     //discussions.unity.com/t/moving-2d-objects-with-wasd-arrow-keys-at-a-constand-speed-c/633247/2
@@ -63,9 +66,10 @@ public class slimeMovement : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
-        bool isJumping = GameObject.Find("JumpCheck").GetComponent<jumpCheckScript>().isJumping;
+   
         if (Input.GetKeyDown(KeyCode.Space) && boxCheck)
         {
             tempJumping = jumping;

@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Collision Object
+  - AbsorbableObjects
+  - Map
+  - Enemy
+  - EnemySpecial
+  - FoodSpecial
   layers:
   - Default
   - TransparentFX
