@@ -16,7 +16,6 @@ public class jumpCheckScript : MonoBehaviour
         if (other.gameObject.name == ("PlayerChar"))
         {
             GameObject.Find("PlayerChar").GetComponent<slimeMovement>().isJumping = true;
-            Debug.Log("In object");
         }
 
     }
@@ -25,7 +24,6 @@ public class jumpCheckScript : MonoBehaviour
         if (other.gameObject.name == ("PlayerChar"))
         {
             GameObject.Find("PlayerChar").GetComponent<slimeMovement>().isJumping = false;
-            Debug.Log("Out Object");
         }
     }
 }

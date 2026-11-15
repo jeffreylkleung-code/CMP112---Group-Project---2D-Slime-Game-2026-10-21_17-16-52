@@ -33,6 +33,9 @@ public class ConsumableScript : MonoBehaviour
             } else if (gameObject.CompareTag("FoodSpecial"))
             {
                 absorbingSize = new Vector3(0.1f, 0.1f, 0.1f);
+            } else if (gameObject.CompareTag("EnemySpecial2"))
+            {
+                absorbingSize = new Vector3(4, 4, 4);
             }
             Debug.Log(playerSize.x);
             Debug.Log(absorbingSize.x);
@@ -45,7 +48,7 @@ public class ConsumableScript : MonoBehaviour
             }
             else
             {
-                if (gameObject.CompareTag("Enemy") || gameObject.CompareTag("EnemySpecial"))
+                if (gameObject.CompareTag("Enemy") || gameObject.CompareTag("EnemySpecial") || gameObject.CompareTag("EnemySpecial2"))
                 {
                     GameObject.Find("PlayerChar").GetComponent<Transform>().localScale -= new Vector3(0.2f, 0.2f, 0.2f);
                     playerSize = GameObject.Find("PlayerChar").GetComponent<Transform>().localScale;

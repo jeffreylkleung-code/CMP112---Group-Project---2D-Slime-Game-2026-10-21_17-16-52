@@ -1,9 +1,11 @@
+using System.Threading;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class slimeMovement : MonoBehaviour
 {
+    public Vector3 publicScale;
     public bool isJumping;
     public bool gameOver;
     public Rigidbody2D rb;
@@ -66,9 +68,16 @@ public class slimeMovement : MonoBehaviour
         }
     }
 
-
+    void timerDelay()
+    {
+        gameObject.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+        return;
+        
+    }
     private void Update()
     {
+        publicScale = transform.localScale;
+        Debug.Log(publicScale);
    
         if (Input.GetKeyDown(KeyCode.Space) && boxCheck)
         {
@@ -81,6 +90,12 @@ public class slimeMovement : MonoBehaviour
             tempJumping = jumping;
             //gamedevbeginner how to jump in unity
             rb.AddForce(Vector2.up * jumping, ForceMode2D.Impulse);
+        }
+
+        if(publicScale.x < new Vector3 (1.0f, 1.0f, 1.0f).x)
+        {
+            Invoke("timerDelay", 3);
+                
         }
     }
 }
