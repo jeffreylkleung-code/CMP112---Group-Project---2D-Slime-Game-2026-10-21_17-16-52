@@ -98,7 +98,6 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
         if (stateComplete)
         {
             ChangeStates();
-            Debug.Log(CurrentState); //DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
         }
         UpdateState();
 
@@ -117,6 +116,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
             if (isAggressive && !fearTarget)
             {
                 CurrentState = EnemyState.STATE_AGGROTARGET;
+                Debug.Log("yes");
                 
             }
             else if (isFearTarget && fearTarget)
@@ -138,6 +138,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
             CurrentState = EnemyState.STATE_IDLE;
         }
 
+        //Debug.Log(CurrentState); //DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
         stateComplete = false;
 
     }
@@ -198,6 +199,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
         if (targetFound)
         {
             ChangeStates();
+            return;
         }
 
         //Patrol
@@ -237,7 +239,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
             JumpCooldown_Count = 0;
         }
 
-        if (Vector2.Distance(transform.position, targetTransform.position) < 1f  || !targetFound || !isAggressive)
+        if (Vector2.Distance(transform.position, targetTransform.position) < 0.2f  || !targetFound || !isAggressive)
         {
             stateComplete = true;
         }
@@ -417,7 +419,6 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
                 }
                 else
                 {
-                    targetTransform = null;
                     targetFound = false;
                 }        
             }   
@@ -500,8 +501,9 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
         {
             // find the target's size
             targetAverageScale = (targetTransform.transform.localScale.x + targetTransform.transform.localScale.y + targetTransform.transform.localScale.z) / 3;
+            Debug.Log(targetAverageScale);
 
-            if (ObjectSize >= targetAverageScale)
+            if (ObjectSize < targetAverageScale)
             {
                 fearTarget = true; 
             }
