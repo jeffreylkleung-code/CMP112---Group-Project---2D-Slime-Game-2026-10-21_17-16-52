@@ -4,6 +4,7 @@ using UnityEngine;
 public class RegenerateConsumeable : MonoBehaviour
 {
     public Transform Consumable;
+    private bool objectConsumed;
     public float regenerateTime;
     public float regenerateTime_Count;
 
@@ -15,8 +16,18 @@ public class RegenerateConsumeable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        try
+        {
+            objectConsumed = !Consumable.gameObject.activeSelf;
+        }
+        catch
+        {
+            objectConsumed = true;
+        }
+
         //Check if the object is deactivated
-        if (!Consumable.gameObject.activeSelf)
+        if (objectConsumed)
         {
             // Add cooldown
             if (regenerateTime_Count < regenerateTime)

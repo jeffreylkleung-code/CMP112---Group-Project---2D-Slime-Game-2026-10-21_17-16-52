@@ -57,7 +57,7 @@ public class ConsumableScript : MonoBehaviour
                 }else
                 {
                     //If it isnt the boss, the current object is destroyed and the game continous.
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                 }
                    
             }
