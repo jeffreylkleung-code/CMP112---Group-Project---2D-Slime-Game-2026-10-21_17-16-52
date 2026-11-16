@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Threading;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class slimeMovement : MonoBehaviour
 {
     public Vector3 publicScale;
+    public Vector3 sizeController;
     public bool isJumping;
     public bool gameOver;
     public Rigidbody2D rb;
@@ -67,16 +69,24 @@ public class slimeMovement : MonoBehaviour
             boxCheck = false;
         }
     }
-
-    void timerDelay()
+    void stopper()
     {
-        gameObject.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
-        return;
-        
+        StopCoroutine(nameof(TimerDelay));
     }
+    IEnumerator TimerDelay()
+    {
+
+        yield return new WaitForSeconds(3);
+        gameObject.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+        stopper();
+
+    }
+
+
     private void Update()
     {
-        publicScale = transform.localScale;
+        publicScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        sizeController = new Vector3 (1.0f, 1.0f, 1.0f);
         Debug.Log(publicScale);
    
         if (Input.GetKeyDown(KeyCode.Space) && boxCheck)
@@ -92,10 +102,10 @@ public class slimeMovement : MonoBehaviour
             rb.AddForce(Vector2.up * jumping, ForceMode2D.Impulse);
         }
 
-        if(publicScale.x < new Vector3 (1.0f, 1.0f, 1.0f).x)
-        {
-            Invoke("timerDelay", 3);
-                
-        }
+        //if(publicScale.x <  sizeController.x)
+        //{
+        //    StartCoroutine(TimerDelay());
+        //        
+        //}
     }
 }
