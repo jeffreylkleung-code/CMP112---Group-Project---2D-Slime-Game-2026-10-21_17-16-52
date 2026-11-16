@@ -20,8 +20,7 @@ public class ConsumableScript : MonoBehaviour
  
     private void GameOver()
     {
-        //If gameOver is ever true (this is due to the enemies), the scene restarts, the playerObject is destroyed as a failsafe.
-         Destroy(GameObject.Find("PlayerChar"));
+        //If gameOver is ever true (this is due to the enemies), the scene restarts
          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
            
     }

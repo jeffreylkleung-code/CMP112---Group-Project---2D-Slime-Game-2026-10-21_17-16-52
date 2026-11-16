@@ -4252,7 +4252,7 @@ PrefabInstance:
     - target: {fileID: 8998301878012687570, guid: 6fa4293eb38200445b2cc2b7cdafcfd5, type: 3}
       propertyPath: Consumable
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1433551610}
     - target: {fileID: 8998301878012687570, guid: 6fa4293eb38200445b2cc2b7cdafcfd5, type: 3}
       propertyPath: regenerateTime
       value: 30
@@ -5694,7 +5694,7 @@ PrefabInstance:
     - target: {fileID: 8998301878012687570, guid: 6fa4293eb38200445b2cc2b7cdafcfd5, type: 3}
       propertyPath: Consumable
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1276889250}
     - target: {fileID: 8998301878012687570, guid: 6fa4293eb38200445b2cc2b7cdafcfd5, type: 3}
       propertyPath: regenerateTime
       value: 30
@@ -8602,7 +8602,7 @@ PrefabInstance:
     - target: {fileID: 8998301878012687570, guid: 6fa4293eb38200445b2cc2b7cdafcfd5, type: 3}
       propertyPath: Consumable
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1073866571}
     - target: {fileID: 8998301878012687570, guid: 6fa4293eb38200445b2cc2b7cdafcfd5, type: 3}
       propertyPath: regenerateTime
       value: 30
@@ -9179,11 +9179,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5789200093759024975, guid: ab9278aa8a6f856468c48e893720a765, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30.74
+      value: 28.9
       objectReference: {fileID: 0}
     - target: {fileID: 5789200093759024975, guid: ab9278aa8a6f856468c48e893720a765, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.03
+      value: -2.07
       objectReference: {fileID: 0}
     - target: {fileID: 5789200093759024975, guid: ab9278aa8a6f856468c48e893720a765, type: 3}
       propertyPath: m_LocalPosition.z
@@ -15859,6 +15859,7 @@ GameObject:
   - component: {fileID: 701651439}
   - component: {fileID: 701651438}
   - component: {fileID: 701651437}
+  - component: {fileID: 701651441}
   m_Layer: 0
   m_Name: Mushroom02 (1)
   m_TagString: AbsorbableObjects
@@ -15948,7 +15949,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701651435}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ed8f3ebdd098e443b22f2728b7931ea, type: 3}
   m_Name: 
@@ -16015,6 +16016,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!50 &701651441
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701651435}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &705056530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24300,6 +24328,7 @@ GameObject:
   - component: {fileID: 1260042560}
   - component: {fileID: 1260042559}
   - component: {fileID: 1260042558}
+  - component: {fileID: 1260042561}
   m_Layer: 0
   m_Name: Mushroom01 (1)
   m_TagString: AbsorbableObjects
@@ -24375,7 +24404,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260042556}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ed8f3ebdd098e443b22f2728b7931ea, type: 3}
   m_Name: 
@@ -24442,6 +24471,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!50 &1260042561
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260042556}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1260092421
 GameObject:
   m_ObjectHideFlags: 0
@@ -38287,7 +38343,6 @@ GameObject:
   - component: {fileID: 2029721767}
   - component: {fileID: 2029721771}
   - component: {fileID: 2029721772}
-  - component: {fileID: 2029721773}
   m_Layer: 7
   m_Name: PlayerChar
   m_TagString: Player
@@ -38486,19 +38541,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2029721773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2029721766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f698c5ba387ef6409688f89fc922a08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAbsorb
-  PlayerSize: 0
 --- !u!1 &2039456456
 GameObject:
   m_ObjectHideFlags: 0

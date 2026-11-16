@@ -500,7 +500,6 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
         {
             // find the target's size
             targetAverageScale = (targetTransform.transform.localScale.x + targetTransform.transform.localScale.y + targetTransform.transform.localScale.z) / 3;
-            Debug.Log(targetAverageScale);
 
             if (ObjectSize < targetAverageScale)
             {
