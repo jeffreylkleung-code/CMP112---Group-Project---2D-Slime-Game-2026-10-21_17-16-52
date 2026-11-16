@@ -116,7 +116,6 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
             if (isAggressive && !fearTarget)
             {
                 CurrentState = EnemyState.STATE_AGGROTARGET;
-                Debug.Log("yes");
                 
             }
             else if (isFearTarget && fearTarget)

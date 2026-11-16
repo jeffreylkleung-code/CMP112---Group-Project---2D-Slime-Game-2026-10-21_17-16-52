@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerAbsorb : MonoBehaviour
 {
+    //Player abosorbing mechanics
+    // Currently unused
 
     public float PlayerSize;
 
