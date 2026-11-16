@@ -6086,7 +6086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab414c1ee1cf27a4299c9da9bedae536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Camera
-  Circle: {fileID: 2029721766}
+  playerChar: {fileID: 2029721766}
 --- !u!1 &522043230
 GameObject:
   m_ObjectHideFlags: 0

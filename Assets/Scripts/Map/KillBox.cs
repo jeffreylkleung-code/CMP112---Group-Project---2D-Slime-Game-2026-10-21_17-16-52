@@ -7,6 +7,7 @@ public class KillBox : MonoBehaviour
     {
         if (collision.name == GameObject.Find("PlayerChar").name)
         {
+            //If the player enters the box, the scene restarts, this is used for the hole, and also as a failsafe if you fall out the map somehow.
             Destroy(GameObject.Find("PlayerChar"));
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
