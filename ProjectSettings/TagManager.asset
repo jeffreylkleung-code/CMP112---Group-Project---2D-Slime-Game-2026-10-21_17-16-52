@@ -10,6 +10,8 @@ TagManager:
   - Enemy
   - EnemySpecial
   - FoodSpecial
+  - EnemyBoss
+  - KillBox
   layers:
   - Default
   - TransparentFX
