@@ -23,7 +23,6 @@ public class EnemyDamage : MonoBehaviour
         {
             if (collision.gameObject.CompareTag(parent.targetTag))
             {
-                Debug.Log(collision); // DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG
 
                 if (collision.gameObject.TryGetComponent(out IDamageable i))
                 {

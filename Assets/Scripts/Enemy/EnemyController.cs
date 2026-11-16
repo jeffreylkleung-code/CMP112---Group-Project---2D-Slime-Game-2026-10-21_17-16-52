@@ -12,8 +12,9 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
 
     // State Behaviours
     public bool isPatrolling; // if true, patrol between points
-    public bool isAggressive; // If true, be aggresive to target; go towards target
-    public bool fearTarget; // if true, be scared of target; go away target
+    public bool isAggressive; // If true, be aggresive to target; go towards target, only a check to toggle in editor
+    public bool isFearTarget; // if true, be scared of target; go away target, only a check to toggle in editor
+    private bool fearTarget; // if true, be scared of target; false, aggro on target
 
     // Player Absorbtion
     public float ObjectSize;
@@ -58,6 +59,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
     private List<Collider2D> TargetsInRange;
     private bool targetFound; // only public for debugging, make private
     private Transform targetTransform;
+    private float targetAverageScale;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -112,12 +114,12 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
         // States
         if (targetFound)
         {
-            if (isAggressive)
+            if (isAggressive && !fearTarget)
             {
                 CurrentState = EnemyState.STATE_AGGROTARGET;
                 
             }
-            else if (fearTarget)
+            else if (isFearTarget && fearTarget)
             {
                 CurrentState = EnemyState.STATE_FEARTARGET;
             }
@@ -254,7 +256,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
             JumpCooldown_Count = 0;
         }
 
-        if (!targetFound || !fearTarget)
+        if (!targetFound || !isFearTarget)
         {
             CurrentState = EnemyState.STATE_IDLE;
         }
@@ -329,7 +331,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
         }
     }
 
-    // Function for EnemyCheckGrounded to call; Detects what object is in front and act accordingly
+    // Function for JumpColliderBox to call; Detects what object is in front and act accordingly
     public void DetectJump(bool isObjectInFront, Collider2D detectedObject)
     {
 
@@ -344,14 +346,16 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
 
     }
 
+    // Function for EnemyCheckGrounded to call; Detects what object is in front and act accordingly 
     public void CheckGrounded(bool isGrounded)
     {
         IsGrounded = isGrounded;
     }
 
-
+    // jump
     private void jump()
     {
+        //https://www.youtube.com/shorts/fmguXe2n4bk - How to make objects jump
         rb.AddForce(Vector2.up * JumpPower);
         JumpCooldown_Count = 0;
     }
@@ -404,6 +408,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
             for (int i = 0; i < TargetsInRange.Count; i++)
             {
                 DetectedTarget = Physics2D.Raycast(transform.position, (TargetsInRange[i].transform.position - transform.position).normalized, Mathf.Infinity, DetectionLayer);
+                Debug.DrawLine(transform.position, TargetsInRange[i].transform.position);
 
                 if (DetectedTarget.transform.gameObject.CompareTag(targetTag))
                 {
@@ -412,15 +417,15 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
                 }
                 else
                 {
+                    targetTransform = null;
                     targetFound = false;
                 }        
             }   
 
             UpdateState(); // Update the state when target found
-            
+
             //Check if the target is larger than self; fear target if so
-
-
+            checkAggression();
 
         }
         else
@@ -430,11 +435,11 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
     }
     
     // Go towards the target
-    
+    // Only used on aggroed targets
     private void GoToTarget()
     {
        
-        if (Vector2.Distance(transform.position, targetTransform.position) > 1f)
+        if (Vector2.Distance(transform.position, targetTransform.position) > 0.5f)
         {
             //Go to left to target
             if (transform.position.x > targetTransform.position.x)
@@ -449,9 +454,11 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
         }
     }
 
+    // Go away from target
+    // only used when it is fearing target
     private void GoAwayTarget()
     {
-        if (Vector2.Distance(transform.position, targetTransform.position) > 1f)
+        if (Vector2.Distance(transform.position, targetTransform.position) > 0.5f)
         {
             //Go to left to target
             if (transform.position.x > targetTransform.position.x)
@@ -466,6 +473,7 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
         }
     }
 
+    // iAbsorbable interface; what happens when self is absorbed
     public float Absorb(float PlayerSizeValue)
     {
         // If the player is larger than object, absorb, increase player size, and delete object
@@ -483,4 +491,31 @@ public class EnemyController : MonoBehaviour, IDamageable, IAbsorbable
             return 0;
         }
     }
+
+    // Toggle the aggro or fear
+    // if self is larger than target, aggro on them; vice versa
+    public void checkAggression()
+    {
+        if (targetTransform)
+        {
+            // find the target's size
+            targetAverageScale = (targetTransform.transform.localScale.x + targetTransform.transform.localScale.y + targetTransform.transform.localScale.z) / 3;
+
+            if (ObjectSize >= targetAverageScale)
+            {
+                fearTarget = true; 
+            }
+            else
+            {
+                fearTarget = false;
+            }
+
+        }
+    }
+
+
+
+
 }
+
+

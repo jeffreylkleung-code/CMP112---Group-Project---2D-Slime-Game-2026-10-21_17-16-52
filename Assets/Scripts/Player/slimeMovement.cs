@@ -87,7 +87,7 @@ public class slimeMovement : MonoBehaviour
     {
         publicScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
         sizeController = new Vector3 (1.0f, 1.0f, 1.0f);
-        Debug.Log(publicScale);
+        //Debug.Log(publicScale);
    
         if (Input.GetKeyDown(KeyCode.Space) && boxCheck)
         {

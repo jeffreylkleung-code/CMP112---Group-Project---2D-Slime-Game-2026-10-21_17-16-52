@@ -43,8 +43,8 @@ public class ConsumableScript : MonoBehaviour
             {
                 //ttps://stackoverflow.com/questions/78504409/how-do-i-change-an-objects-scale-from-another-objects-code-in-unity-2d
                 GameObject.Find("PlayerChar").GetComponent<Transform>().localScale += new Vector3(0.2f, 0.2f, 0.2f);
-                
-                Destroy(gameObject);
+
+                gameObject.SetActive(false);
             }
             else
             {
